@@ -17,6 +17,7 @@ pytest_plugins = (
     "tests.integration.charm_states.vault_pki_requirer",
 )
 
+
 def pytest_addoption(parser: pytest.Parser) -> None:
     """Add options to the pytest command line.
 
@@ -54,6 +55,7 @@ def pytest_configure(config: pytest.Config) -> None:
         pytest.exit(f"The path specified does not exist: {charm_path}")
     if not os.path.exists(kv_requirer_charm_path):
         pytest.exit(f"The path specified does not exist: {kv_requirer_charm_path}")
+
 
 @pytest.fixture(scope="session")
 def vault_charm_path(request: pytest.FixtureRequest) -> Path:

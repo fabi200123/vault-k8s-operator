@@ -1,4 +1,3 @@
-
 import logging
 from asyncio import Task, create_task
 from pathlib import Path
@@ -18,6 +17,7 @@ from tests.integration.helpers import (
 
 logger = logging.getLogger(__name__)
 
+
 @pytest.fixture(scope="function")
 async def vault_idle_blocked(
     ops_test: OpsTest, request: pytest.FixtureRequest, vault_charm_path: Path
@@ -29,7 +29,6 @@ async def vault_idle_blocked(
     return create_task(
         deploy_vault_and_wait(ops_test, vault_charm_path, NUM_VAULT_UNITS, status="blocked")
     )
-
 
 
 @pytest.fixture(scope="function")
@@ -76,6 +75,7 @@ async def vault_unsealed(ops_test: OpsTest, vault_initialized: Task) -> Task:
 
     return create_task(task())
 
+
 @pytest.fixture(scope="function")
 async def vault_idle(
     ops_test: OpsTest, request: pytest.FixtureRequest, vault_charm_path: Path
@@ -88,4 +88,3 @@ async def vault_idle(
     "active" state.
     """
     return create_task(deploy_vault_and_wait(ops_test, vault_charm_path, NUM_VAULT_UNITS))
-

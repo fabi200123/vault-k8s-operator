@@ -1,4 +1,3 @@
-
 from asyncio import Task
 
 from pytest_operator.plugin import OpsTest
@@ -13,7 +12,10 @@ from tests.integration.helpers import get_app
 
 
 async def test_given_haproxy_deployed_when_integrated_then_status_is_active(
-    ops_test: OpsTest, haproxy_idle: Task, self_signed_certificates_idle: Task, vault_authorized: Task
+    ops_test: OpsTest,
+    haproxy_idle: Task,
+    self_signed_certificates_idle: Task,
+    vault_authorized: Task,
 ):
     assert ops_test.model
     await haproxy_idle

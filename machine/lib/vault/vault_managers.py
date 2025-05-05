@@ -105,6 +105,7 @@ path "sys/internal/ui/mounts/{mount}" {{
 }}
 """
 
+
 class LogAdapter(logging.LoggerAdapter):
     """Adapter for the logger to prepend a prefix to all log lines."""
 

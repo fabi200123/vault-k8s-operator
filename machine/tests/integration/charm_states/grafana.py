@@ -15,4 +15,3 @@ async def grafana_deployed(ops_test: OpsTest) -> Task:
     return create_task(
         deploy_if_not_exists(ops_test.model, GRAFANA_AGENT_APPLICATION_NAME, series="noble")
     )
-

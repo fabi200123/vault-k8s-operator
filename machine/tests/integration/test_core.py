@@ -1,4 +1,3 @@
-
 import logging
 from asyncio import Task, gather
 
@@ -23,6 +22,7 @@ from tests.integration.vault import Vault
 
 logger = logging.getLogger(__name__)
 
+
 @pytest.mark.abort_on_fail
 async def test_given_charm_deployed_then_status_blocked(
     ops_test: OpsTest, vault_idle_blocked: Task
@@ -32,6 +32,7 @@ async def test_given_charm_deployed_then_status_blocked(
 
     vault_app = get_app(ops_test.model)
     assert vault_app.status == "blocked"
+
 
 @pytest.mark.abort_on_fail
 async def test_given_certificates_provider_is_related_when_vault_status_checked_then_vault_returns_200_or_429(  # noqa: E501

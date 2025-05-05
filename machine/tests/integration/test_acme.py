@@ -1,4 +1,3 @@
-
 import asyncio
 import logging
 from asyncio import Task
@@ -41,6 +40,7 @@ async def verify_acme_configured(ops_test: OpsTest, app_name: str) -> bool:
             await asyncio.sleep(5)
 
     return False
+
 
 @pytest.mark.abort_on_fail
 @pytest.mark.dependency()

@@ -1,4 +1,3 @@
-
 from asyncio import Task
 
 import pytest
@@ -88,6 +87,8 @@ async def run_restore_backup_action(ops_test: OpsTest, backup_id: str) -> dict:
     return await ops_test.model.get_action_output(
         action_uuid=restore_backup_action.entity_id, wait=120
     )
+
+
 @pytest.mark.abort_on_fail
 async def test_given_vault_integrated_with_s3_when_create_backup_then_action_succeeds(
     ops_test: OpsTest, vault_authorized: Task, s3_integrator_idle: Task

@@ -1,4 +1,3 @@
-
 import logging
 from asyncio import Task
 from pathlib import Path
@@ -20,6 +19,7 @@ from tests.integration.helpers import (
 )
 
 logger = logging.getLogger(__name__)
+
 
 @pytest.mark.abort_on_fail
 async def test_given_vault_is_deployed_when_integrate_another_vault_then_autounseal_activated(

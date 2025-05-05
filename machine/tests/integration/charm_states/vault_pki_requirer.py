@@ -1,4 +1,3 @@
-
 from asyncio import Task, create_task
 
 import pytest
@@ -34,4 +33,3 @@ async def vault_pki_requirer_idle(ops_test: OpsTest) -> Task:
         )
 
     return create_task(deploy_pki_requirer(ops_test))
-
