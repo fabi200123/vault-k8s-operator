@@ -32,7 +32,6 @@ import json
 import logging
 import os
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum, auto
 from typing import FrozenSet, MutableMapping, TextIO
@@ -443,10 +442,8 @@ class TLSManager(Object):
         try:
             file_path = self.get_tls_file_path_in_charm(file)
             return os.path.exists(file_path)
-        except VaultCertsError:
+        except (VaultCertsError, TransientJujuError):
             return False
-        except TransientJujuError:
-            raise
 
     def ca_certificate_is_saved(self) -> bool:
         """Return whether a CA cert and its private key are saved in the charm."""
@@ -658,7 +655,7 @@ class _PKIUtils:
             return Certificate.from_string(intermediate_ca_cert)
         except (VaultClientError, TLSCertificatesError) as e:
             logger.error("Failed to get current CA certificate: %s", e)
-        return None
+            return None
 
     def make_latest_issuer_default(self):
         """Make the latest PKI issuer the default issuer.
@@ -717,17 +714,6 @@ class _PKIUtils:
         )
         certificate_validity_seconds = certificate_validity.total_seconds()
         return certificate_validity_seconds > current_ttl
-
-
-@dataclass
-class AutounsealConfigurationDetails:
-    """Credentials required for configuring auto-unseal on Vault."""
-
-    address: str
-    mount_path: str
-    key_name: str
-    token: str
-    ca_cert_path: str
 
 
 class AutounsealProviderManager:

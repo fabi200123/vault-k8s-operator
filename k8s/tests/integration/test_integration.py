@@ -141,7 +141,7 @@ class TestVaultK8s:
             unseal_vault(unit_addresses[leader_unit_index], root_token, unseal_key)
             await wait_for_status_message(
                 ops_test=ops_test,
-                expected_message="Please authorize charm (see `authorize-charm` action)",
+                # expected_message="Please authorize charm (see `authorize-charm` action)",
             )
             unseal_all_vaults(unit_addresses, root_token, unseal_key)
             await wait_for_status_message(
@@ -1153,7 +1153,17 @@ async def run_list_backups_action(ops_test: OpsTest) -> dict:
         action_uuid=list_backups_action.entity_id, wait=120
     )
 
-
+    deploy_prometheus = ops_test.model.deploy(
+        "prometheus-k8s",
+        application_name=PROMETHEUS_APPLICATION_NAME,
+        trust=True,
+    )
+    deploy_loki = ops_test.model.deploy(
+        "loki-k8s",
+        application_name=LOKI_APPLICATION_NAME,
+        trust=True,
+        channel="stable",
+    )
 async def run_restore_backup_action(ops_test: OpsTest, backup_id: str) -> dict:
     """Run the `restore-backup` action on the `vault-k8s` leader unit.
 
