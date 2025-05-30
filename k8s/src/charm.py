@@ -236,6 +236,10 @@ class VaultCharm(CharmBase):
         self.framework.observe(
             self.vault_kv.on.vault_kv_client_detached, self._on_vault_kv_client_detached
         )
+        self.framework.observe(self.vault_pki.on.certificate_request, self._on_vault_pki_certificate_request)
+
+    def _on_vault_pki_certificate_request(self, event):
+        self._sync_vault_pki(self._get_active_vault_client())
 
     def _on_install(self, event: InstallEvent):
         """Handle the install charm event."""
