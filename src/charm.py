@@ -191,7 +191,6 @@ class VaultCharm(CharmBase):
             self.on.config_changed,
             self.on[PEER_RELATION_NAME].relation_created,
             self.on[PEER_RELATION_NAME].relation_changed,
-            self.on.vault_pki_relation_changed,
             self.on.tls_certificates_pki_relation_joined,
             self.tls_certificates_pki.on.certificate_available,
             self.vault_autounseal_requires.on.vault_autounseal_details_ready,
@@ -213,6 +212,16 @@ class VaultCharm(CharmBase):
         self.framework.observe(
             self.vault_kv.on.vault_kv_client_detached, self._on_vault_kv_client_detached
         )
+        self.framework.observe(self.on.vault_pki_relation_joined, self._on_vault_pki_relation_event)
+        self.framework.observe(self.on.vault_pki_relation_changed, self._on_vault_pki_relation_event)
+
+    def _on_vault_pki_relation_event(self, event: EventBase):
+        """Whenever Traefik (the requirer) creates or changes the vault-pki relation,
+        go sign any outstanding CSRs and push them back."""
+        vault = self._get_authenticated_vault_client() or self._get_active_vault_client()
+        if not vault:
+            return
+        self._sync_vault_pki(vault)
 
     def _on_install(self, event: InstallEvent):
         """Handle the install charm event."""
