@@ -174,7 +174,7 @@ class VaultCharm(CharmBase):
             service_name=self._container_name,
             tls_directory_path=CONTAINER_TLS_FILE_DIRECTORY_PATH,
             common_name=self._ingress_address if self._ingress_address else "",
-            sans_dns=frozenset([socket.getfqdn()]),
+            sans_dns=frozenset([socket.getfqdn(), "mydomain.com"]),
             sans_ip=frozenset([self._ingress_address] if self._ingress_address else []),
         )
         self.ingress = IngressPerAppRequirer(
