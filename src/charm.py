@@ -189,6 +189,8 @@ class VaultCharm(CharmBase):
             self.on.update_status,
             self.on.vault_pebble_ready,
             self.on.config_changed,
+            self.on.install,
+            self.on.update_status,
             self.on[PEER_RELATION_NAME].relation_created,
             self.on[PEER_RELATION_NAME].relation_changed,
             self.on.tls_certificates_pki_relation_joined,
@@ -780,7 +782,8 @@ class VaultCharm(CharmBase):
             return None
         if not vault.is_api_available():
             return None
-        if not (approle := self._get_approle_auth_secret()):
+        approle = self._get_approle_auth_secret()
+        if not (approle):
             return None
         if not vault.authenticate(approle):
             return None
